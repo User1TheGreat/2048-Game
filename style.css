@@ -1,0 +1,330 @@
+/* Import Poppins font from Google Fonts */
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap");
+
+/* --- GENERAL STYLES --- */
+body {
+  font-family: "Poppins", sans-serif;
+  font-weight: 400;
+  text-align: center;
+  background-color: #faf8ef; /* Classic 2048 background */
+  margin: 0;
+  padding: 0;
+  color: #776e65; /* Standard text color */
+
+  padding-bottom: 60px; /* Space for footer */
+}
+
+h1 {
+  font-weight: 700;
+  font-size: 60px;
+  margin: 10px 0;
+  color: #776e65;
+}
+
+h2 {
+  font-weight: 700;
+  color: #776e65;
+}
+
+hr {
+  width: 400px; /* Matches board width */
+  border: 0;
+  height: 4px;
+  background-color: #bbada0;
+  border-radius: 2px;
+  margin: 15px auto;
+}
+
+/* --- SCORE CONTAINER STYLES --- */
+.score-container {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  margin-bottom: 20px;
+}
+
+/* Style the h2 elements inside the score container */
+.score-container h2 {
+  background-color: #bbada0;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 5px;
+  margin: 0;
+  font-size: 16px;
+  min-width: 90px;
+  text-transform: uppercase;
+}
+
+/* Style the span elements (the actual numbers) inside the h2 */
+.score-container h2 span {
+  display: block;
+  font-size: 24px;
+  font-weight: 700;
+  margin-top: 2px;
+}
+
+/* --- BOARD STYLES --- */
+#board {
+  width: 400px;
+  height: 400px;
+  background-color: #bbada0; /* Darker background */
+  border: 10px solid #bbada0;
+  border-radius: 6px;
+  margin: 0 auto;
+  position: relative; /* Essential for absolute tile positioning */
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
+}
+
+/* --- GAME OVER STYLES --- */
+#game-over {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(238, 228, 218, 0.85); /* Slightly translucent */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  border-radius: 6px;
+  z-index: 10;
+  transition: opacity 0.3s ease-in-out;
+}
+
+.hidden {
+  display: none !important;
+  opacity: 0;
+}
+
+#game-over h1 {
+  color: #776e65;
+  font-size: 60px;
+  margin-bottom: 25px;
+}
+
+#game-over button {
+  padding: 15px 30px;
+  font-size: 20px;
+  cursor: pointer;
+  background-color: #8f7a66;
+  color: white;
+  border: none;
+  border-radius: 3px;
+  font-family: "Poppins", sans-serif;
+  font-weight: 700;
+  transition: background-color 0.1s;
+}
+
+#game-over button:hover {
+  background-color: #776e65;
+}
+
+/* --- BUTTON STYLING (HOW TO PLAY) --- */
+.btn-open {
+  display: inline-block;
+  padding: 10px 20px;
+  background-color: #8f7a66;
+  color: white;
+  text-decoration: none;
+  border-radius: 3px;
+  margin-bottom: 20px;
+  font-weight: bold;
+  transition: background-color 0.1s;
+}
+
+.btn-open:hover {
+  background-color: #776e65;
+}
+
+/* --- MODAL STYLES --- */
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  visibility: hidden;
+  opacity: 0;
+  transition: opacity 0.3s;
+  z-index: 100;
+}
+
+.modal:target {
+  visibility: visible;
+  opacity: 1;
+}
+
+.modal-content {
+  background-color: #faf8ef;
+  padding: 25px;
+  border-radius: 6px;
+  width: 300px;
+  position: relative;
+  color: #776e65;
+  text-align: center;
+  border: 5px solid #bbada0;
+}
+
+.modal-content h2 {
+  margin-top: 0;
+  color: #776e65;
+}
+
+.modal-content p {
+  line-height: 1.5;
+  font-size: 15px;
+}
+
+.btn-close {
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  font-size: 24px;
+  text-decoration: none;
+  color: #776e65;
+}
+
+/* --- TILE STYLES --- */
+.tile {
+  width: 90px;
+  height: 90px;
+  font-size: 40px;
+  font-weight: bold;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 3px;
+  position: absolute;
+  /* Smoothly transition 'top' and 'left' changes */
+  transition: all 0.1s ease-in-out;
+  z-index: 1;
+
+  /* Sets the background color for empty spots */
+  background-color: rgba(238, 228, 218, 0.35);
+}
+
+/* --- UPDATED CSS --- */
+footer {
+  position: fixed;
+  bottom: -125px;
+  left: 0;
+  background-color: #bbada0; /* Match board border for cohesion */
+  width: 100%;
+  text-align: center;
+  padding: 10px 0;
+  color: white;
+  z-index: 1000;
+  font-size: 14px;
+  transition: transform 0.4s ease-in-out;
+  transform: translateY(0); /* Start hidden below the viewport */
+}
+
+footer.open {
+  transform: translateY(-125px); /* Move it up into view */
+}
+
+#toggle-footer {
+  position: absolute;
+  top: -30px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: #bbada0;
+  color: white;
+  border: none;
+  border-radius: 10px 10px 0 0;
+  padding: 5px 15px;
+  cursor: pointer;
+  font-size: 16px;
+  box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.2); /* Subtle shadow for better visibility */
+}
+
+.main-container {
+  padding-bottom: 80px; /* Space for the footer */
+}
+/* -------------------- */
+
+/* --- POSITIONS (TOUCHED) --- */
+.row-0 {
+  top: 5px;
+}
+.row-1 {
+  top: 105px;
+}
+.row-2 {
+  top: 205px;
+}
+.row-3 {
+  top: 305px;
+}
+
+.col-0 {
+  left: 5px;
+}
+.col-1 {
+  left: 105px;
+}
+.col-2 {
+  left: 205px;
+}
+.col-3 {
+  left: 305px;
+}
+
+/* --- COLORS (TOUCHED) --- */
+.x2 {
+  background-color: #eee4da;
+  color: #727371;
+}
+.x4 {
+  background-color: #ece0ca;
+  color: #727371;
+}
+.x8 {
+  background-color: #f4b17a;
+  color: #ffffff;
+}
+.x16 {
+  background-color: #f59575;
+  color: #ffffff;
+}
+.x32 {
+  background-color: #f57c5f;
+  color: #ffffff;
+}
+.x64 {
+  background-color: #f65d3b;
+  color: #ffffff;
+}
+.x128 {
+  background-color: #edce71;
+  color: #ffffff;
+}
+.x256 {
+  background-color: #edcc63;
+  color: #ffffff;
+}
+.x512 {
+  background-color: #edc651;
+  color: #ffffff;
+}
+.x1024 {
+  background-color: #eec744;
+  color: #ffffff;
+}
+.x2048 {
+  background-color: #ecc230;
+  color: #ffffff;
+}
+.x4096 {
+  background-color: #fe3d3d;
+  color: #ffffff;
+}
+.x8192 {
+  background-color: #ff2020;
+  color: #ffffff;
+}
